@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <title>Bulk Orders - RZK Atelier</title>
+  <link rel="stylesheet" href="Resources/Styles/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script>
+    // Prevent Flash Of Incorrect Theme (FOIT)
+    (function() {
+      const theme = localStorage.getItem('theme') || 'system';
+      if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <style>
+    .bulk-hero {
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+      color: white;
+      padding: 80px 5% 60px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .bulk-hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .bulk-hero p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .bulk-content {
+      padding: 80px 5%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .form-container {
+      background: var(--card-background);
+      border-radius: 15px;
+      padding: 40px;
+      width: 100%;
+      max-width: 600px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px var(--dropdown-shadow);
+    }
+
+    .form-container h2 {
+      color: var(--accent-color);
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+      width: 100%;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: var(--text-color);
+      font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 15px;
+      background: var(--input-background);
+      color: var(--input-text);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      font-family: 'Orbitron', sans-serif;
+      transition: var(--transition);
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(255, 46, 46, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px 30px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .submit-btn:hover {
+      background: var(--button-hover);
+      transform: translateY(-2px);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .success-message {
+      background: #4caf50;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+      display: none;
+    }
+
+    .error-message {
+      background: var(--accent-color);
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .bulk-hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .bulk-hero p {
+        font-size: 1.1rem;
+      }
+
+      .form-container {
+        padding: 30px;
+      }
+
+      .bulk-content {
+        padding: 60px 5%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .form-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="Index.html" class="logo-link">
+        <div class="logo-container">
+          <img src="Resources/Images/logo.png" alt="RZK Atelier Logo" class="header-logo">
+        </div>
+      </a>
+      <nav>
+        <ul>
+          <li>
+           <!-- <a href="Shop.html" data-category="shop">SHOP</a> -->
+          </li>
+          <li>
+            <a href="Orders.html" data-category="Orders">Orders</a>
+          </li>
+          <li>
+            <a href="About.html" data-category="About">About</a>
+          </li>
+          <li>
+            <a href="Gallery.html" data-category="Gallery">Gallery</a>
+          </li>
+          <li>
+            <a href="Contact.html" data-category="Contact">Contact</a>
+          </li>
+        <!-- <li>
+            <a href="#" data-category="discover">DISCOVER</a>
+            <div class="dropdown">
+              <a href="About.html">About Us</a>
+              <a href="Gallery.html">Gallery</a>
+              <a href="Contact.html">Contact</a>
+            </div>
+          </li>--> 
+        </ul>
+      </nav>
+      
+      <div class="header-icons">
+       <!-- <a href="#" class="wishlist-link"><i class="fas fa-heart"></i> Wishlist</a>
+        <a href="#" class="login-link"><i class="fas fa-user"></i> Login</a>
+        <a href="#" class="cart-link">
+          <i class="fas fa-shopping-cart"></i> Cart (<span class="cart-count">0</span>)
+        </a>-->
+      </div>
+    </div>
+  </header>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal">
+    <div class="cart-modal-content">
+      <div class="cart-modal-header">
+        <h3>Your Cart</h3>
+        <div class="cart-header-actions">
+          <button class="clear-cart-btn" type="button">Clear Cart</button>
+          <button class="close-cart" type="button">&times;</button>
+        </div>
+      </div>
+      <div id="cart-items">
+        <!-- Cart items will be dynamically added here -->
+      </div>
+      <div id="cart-totals">
+        <!-- Cart totals will be dynamically added here -->
+      </div>
+    </div>
+  </div>
+
+  <div class="bulk-hero">
+    <h1>Orders</h1>
+    <p>Get competitive pricing for your orders. Perfect for businesses, events, teams, and organizations looking for custom apparel solutions.</p>
+  </div>
+
+  <div class="bulk-content">
+    <div class="form-container">
+      <h2>Request a Quote</h2>
+      
+      <div id="success-message" class="success-message">
+        Thank you for your order request! We'll get back to you within 24 hours with a custom quote.
+      </div>
+      <div id="error-message" class="error-message">
+        Sorry, there was an error submitting your request. Please try again.
+      </div>
+
+      <form id="bulk-order-form" action="https://formspree.io/f/xgooqyan" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="company">Customer Name</label>
+          <input type="text" id="company" name="company" placeholder="Enter company name">
+        </div>
+
+        <div class="form-group">
+          <label for="contact-name">Contact Name</label>
+          <input type="text" id="contact-name" name="contactName" placeholder="Your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+27 23 456 7890">
+        </div>
+
+        <div class="form-group">
+          <label for="quantity">Quantity</label>
+          <input type="number" id="quantity" name="quantity" placeholder="Number of products" required min="0">
+        </div>
+
+        <div class="form-group">
+          <label for="product-type">Product Type </label>
+         <input type="text" id="product-type" name="productType" placeholder="e.g., T-Shirts, Hoodies, Polo Shirts">
+        </div>
+
+        <div class="form-group">
+          <label for="sizes">Size Requirements</label>
+          <textarea id="sizes" name="sizes" placeholder="e.g., 10x S, 15x M, 20x L, 5x XL - or let us know your size distribution preferences"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="colors">Color Preferences</label>
+          <input type="text" id="colors" name="colors" placeholder="e.g., Black, White, Navy Blue, or specify custom colors">
+        </div>
+
+        <div class="form-group">
+          <label for="designs">Upload Design Files (Optional)</label>
+          <input type="file" id="designs" name="designs" multiple accept="image/*,.pdf,.ai,.eps">
+          <small style="color: var(--nav-text); margin-top: 5px; display: block;">Accepted formats: JPG, PNG, PDF, AI, EPS. Max 10MB per file.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="design-requirements">Design Requirements & Instructions</label>
+          <textarea id="design-requirements" name="designRequirements" placeholder="Describe your design requirements, printing preferences (screen print, embroidery, etc.), placement, colors, special instructions, timeline, etc."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="additional-info">Additional Information</label>
+          <textarea id="additional-info" name="additionalInfo" placeholder="Any RZK Atelier details, special requirements, or questions you'd like to share?"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Request Quote</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>DISCOVER</h4>
+        <ul>
+          <li><a href="About.html">ABOUT US</a></li>
+          <li><a href="Gallery.html">GALLERY</a></li>
+          <li><a href="Contact.html">CONTACT</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>CONNECT</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/rzk_atelier?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a></li>
+          <!--<li><a href="#"><i class="fab fa-facebook"></i> FACEBOOK</a></li>
+          <li><a href="#"><i class="fab fa-tiktok"></i> TIKTOK</a></li>-->
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>RZK ATELIER - Whatsapp Community</h4>
+        <p>JOIN THE RZK ATELIER COMMUNITY</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Phone Number" required>
+          <button type="submit">Join</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 RZK Atelier 
+        <br>Site by <a href="https://mekalen.github.io/MN/">Mekalen Naidu</a></p>
+    </div>
+  </footer>
+
+  <script src="Resources/Scripts/script.js"></script>
+  <script src="Resources/Scripts/cart.js"></script>
+  <script src="Resources/Scripts/theme.js"></script>
+  
+  <script>
+    document.getElementById('bulk-order-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitBtn = this.querySelector('.submit-btn');
+      const originalBtnText = submitBtn.textContent;
+      
+      // Disable button and show loading state
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      
+      // Get form data
+      const formData = new FormData(this);
+      
+      // Basic validation
+      const contactName = formData.get('contactName');
+      const email = formData.get('email');
+      const quantity = formData.get('quantity');
+      const productType = formData.get('productType');
+      
+      if (!contactName || !email || !quantity || !productType) {
+        showMessage('error', 'Please fill in all required fields.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+        return;
+      }
+      
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showMessage('error', 'Please enter a valid email address.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+        return;
+      }
+      
+      // Quantity validation
+      if (parseInt(quantity) < 50) {
+        showMessage('error', 'Minimum quantity for bulk orders is 50 pieces.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+        return;
+      }
+      
+      try {
+        // Submit to Formspree
+        const response = await fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          showMessage('success', 'Thank you for your bulk order request! We\'ll get back to you within 24 hours with a custom quote.');
+          this.reset();
+        } else {
+          const data = await response.json();
+          if (data.errors) {
+            showMessage('error', data.errors.map(error => error.message).join(', '));
+          } else {
+            showMessage('error', 'Sorry, there was an error submitting your request. Please try again.');
+          }
+        }
+      } catch (error) {
+        showMessage('error', 'Sorry, there was an error submitting your request. Please try again.');
+        console.error('Form submission error:', error);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+      }
+    });
+    
+    function showMessage(type, message) {
+      const successEl = document.getElementById('success-message');
+      const errorEl = document.getElementById('error-message');
+      
+      // Hide all messages first
+      successEl.style.display = 'none';
+      errorEl.style.display = 'none';
+      
+      if (type === 'success') {
+        successEl.textContent = message;
+        successEl.style.display = 'block';
+        // Scroll to top of form
+        document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
+      } else {
+        errorEl.textContent = message;
+        errorEl.style.display = 'block';
+      }
+      
+      // Auto hide after 5 seconds
+      setTimeout(() => {
+        successEl.style.display = 'none';
+        errorEl.style.display = 'none';
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

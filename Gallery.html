@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <title>Gallery - RZK Atelier</title>
+  <link rel="stylesheet" href="Resources/Styles/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script>
+    // Prevent Flash Of Incorrect Theme (FOIT)
+    (function() {
+      const theme = localStorage.getItem('theme') || 'system';
+      if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <style>
+    .page-hero {
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+      color: white;
+      padding: 80px 5% 60px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .page-hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .page-hero p {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      max-width: 840px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .gallery-content {
+      padding: 80px 5%;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    .gallery-intro {
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--nav-text);
+      font-size: 1.05rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      background: var(--card-background);
+      cursor: zoom-in;
+      box-shadow: 0 4px 14px var(--dropdown-shadow);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 4/5;
+      transition: transform 0.6s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0.1));
+      opacity: 0;
+      transition: var(--transition);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 14px;
+      color: white;
+      pointer-events: none;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-badge {
+      background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+
+    .quality-strip {
+      margin: 60px 0 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .quality-card {
+      background: var(--card-background);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 22px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .quality-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+
+    .quality-card h3 {
+      margin: 0 0 6px 0;
+      font-size: 1.05rem;
+      color: var(--text-color);
+    }
+
+    .quality-card p {
+      margin: 0;
+      color: var(--nav-text);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .lightbox.active { display: flex; }
+
+    .lightbox-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(2px);
+    }
+
+    .lightbox-image {
+      position: relative;
+      max-width: 92vw;
+      max-height: 84vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 1px solid var(--border-color);
+      z-index: 1;
+    }
+
+    .lightbox-close,
+    .lightbox-prev,
+    .lightbox-next {
+      position: absolute;
+      z-index: 2;
+      background: rgba(0,0,0,0.55);
+      color: white;
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1.2rem;
+    }
+
+    .lightbox-close { top: 24px; right: 24px; }
+    .lightbox-prev { left: 24px; }
+    .lightbox-next { right: 24px; }
+
+    .lightbox-prev,
+    .lightbox-next { top: 50%; transform: translateY(-50%); }
+
+    .lightbox-close:hover,
+    .lightbox-prev:hover,
+    .lightbox-next:hover { background: rgba(0,0,0,0.75); }
+
+    @media (max-width: 768px) {
+      .page-hero h1 { font-size: 2.6rem; }
+      .page-hero p { font-size: 1.05rem; }
+      .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="Index.html" class="logo-link">
+        <div class="logo-container">
+          <img src="Resources/Images/logo.png" alt="RZK Atelier Logo" class="header-logo">
+        </div>
+      </a>
+      <nav>
+        <ul>
+          <li>
+            <a href="Orders.html" data-category="Orders">Orders</a>
+          </li>
+          <li>
+            <a href="About.html" data-category="About">About</a>
+          </li>
+          <li>
+            <a href="Gallery.html" data-category="Gallery">Gallery</a>
+          </li>
+          <li>
+            <a href="Contact.html" data-category="Contact">Contact</a>
+          </li>
+        <!-- <li>
+            <a href="#" data-category="discover">DISCOVER</a>
+            <div class="dropdown">
+              <a href="About.html">About Us</a>
+              <a href="Gallery.html">Gallery</a>
+              <a href="Contact.html">Contact</a>
+            </div>
+          </li>--> 
+        </ul>
+      </nav>
+      <div class="header-icons">
+        <!--
+        <a href="#" class="wishlist-link"><i class="fas fa-heart"></i> Wishlist</a>
+        <a href="#" class="login-link"><i class="fas fa-user"></i> Login</a>
+        <a href="#" class="cart-link">
+          <i class="fas fa-shopping-cart"></i> Cart (<span class="cart-count">0</span>)
+        </a>
+      -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal">
+    <div class="cart-modal-content">
+      <div class="cart-modal-header">
+        <h3>Your Cart</h3>
+        <div class="cart-header-actions">
+          <button class="clear-cart-btn" type="button">Clear Cart</button>
+          <button class="close-cart" type="button">&times;</button>
+        </div>
+      </div>
+      <div id="cart-items"></div>
+      <div id="cart-totals"></div>
+    </div>
+  </div>
+
+  <div class="page-hero">
+    <h1>The RZK Atelier Gallery</h1>
+    <p>Crafted with care. Printed with precision. Worn with confidence. Explore a curated selection of our recent work that showcases our dedication to quality garments and timeless design.</p>
+  </div>
+
+  <div class="gallery-content">
+    <div class="gallery-intro">Every piece is the result of premium fabrics, meticulous finishing, and a passion for street-ready style.</div>
+
+    <div class="gallery-grid" id="gallery-grid"></div>
+
+    <div class="quality-strip">
+      <div class="quality-card">
+        <div class="quality-icon"><i class="fas fa-gem"></i></div>
+        <div>
+          <h3>Premium Materials</h3>
+          <p>We source fabrics for comfort, durability, and a refined hand feel that lasts.</p>
+        </div>
+      </div>
+      <div class="quality-card">
+        <div class="quality-icon"><i class="fas fa-print"></i></div>
+        <div>
+          <h3>Precision Printing</h3>
+          <p>Bold color, crisp lines, and finish options that elevate every design.</p>
+        </div>
+      </div>
+      <div class="quality-card">
+        <div class="quality-icon"><i class="fas fa-scissors"></i></div>
+        <div>
+          <h3>Tailored Finishing</h3>
+          <p>From stitch to label, we obsess over details you can see and feel.</p>
+        </div>
+      </div>
+      <div class="quality-card">
+        <div class="quality-icon"><i class="fas fa-leaf"></i></div>
+        <div>
+          <h3>Thoughtful Production</h3>
+          <p>Small-batch quality and responsible processes guide how we make.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-backdrop" data-action="close"></div>
+    <button class="lightbox-close" aria-label="Close" data-action="close">&times;</button>
+    <button class="lightbox-prev" aria-label="Previous" data-action="prev"><i class="fas fa-chevron-left"></i></button>
+    <img class="lightbox-image" alt="Gallery image preview">
+    <button class="lightbox-next" aria-label="Next" data-action="next"><i class="fas fa-chevron-right"></i></button>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>DISCOVER</h4>
+        <ul>
+          <li><a href="About.html">ABOUT US</a></li>
+          <li><a href="Gallery.html">GALLERY</a></li>
+          <li><a href="Contact.html">CONTACT</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>CONNECT</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/rzk_atelier?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a></li>
+          <!--<li><a href="#"><i class="fab fa-facebook"></i> FACEBOOK</a></li>
+          <li><a href="#"><i class="fab fa-tiktok"></i> TIKTOK</a></li>-->
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>RZK ATELIER - Whatsapp Community</h4>
+        <p>JOIN THE RZK ATELIER COMMUNITY</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Phone Number" required>
+          <button type="submit">Join</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 RZK Atelier 
+        <br>Site by <a href="https://mekalen.github.io/MN/">Mekalen Naidu</a></p>
+    </div>
+  </footer>
+
+  <script src="Resources/Scripts/script.js"></script>
+  <script src="Resources/Scripts/cart.js"></script>
+  <script src="Resources/Scripts/theme.js"></script>
+
+  <script>
+    // List every image in Resources/Images/Gallery
+    const galleryImages = [
+      'Resources/Images/Gallery/MW1.jpeg',
+      'Resources/Images/Gallery/MW2.jpeg',
+      'Resources/Images/Gallery/MW3.jpeg',
+      'Resources/Images/Gallery/MW4.jpeg',
+      'Resources/Images/Gallery/MWI1.jpeg',
+      'Resources/Images/Gallery/MWI2.jpeg',
+      'Resources/Images/Gallery/MWI3.jpeg',
+      'Resources/Images/Gallery/MWI4.jpeg',
+      'Resources/Images/Gallery/WhatsApp Image 2025-08-18 at 2.07.27 PM.jpeg',
+      'Resources/Images/Gallery/WhatsApp Image 2025-08-18 at 2.07.28 PM (1).jpeg',
+      'Resources/Images/Gallery/WhatsApp Image 2025-08-18 at 2.07.28 PM (2).jpeg',
+      'Resources/Images/Gallery/WhatsApp Image 2025-08-18 at 2.07.28 PM (3).jpeg',
+      'Resources/Images/Gallery/WhatsApp Image 2025-08-18 at 2.07.28 PM (4).jpeg',
+      'Resources/Images/Gallery/WhatsApp Image 2025-08-18 at 2.07.28 PM.jpeg',
+      'Resources/Images/Gallery/WhatsApp Image 2025-08-18 at 2.07.29 PM (1).jpeg',
+      'Resources/Images/Gallery/WhatsApp Image 2025-08-18 at 2.07.29 PM.jpeg',
+      'Resources/Images/Gallery/WhatsApp Image 2025-08-18 at 2.09.32 PM.jpeg',
+      'Resources/Images/Gallery/WhatsApp Image 2025-08-18 at 2.10.43 PM.jpeg'
+    ];
+
+    const galleryGrid = document.getElementById('gallery-grid');
+    let currentIndex = 0;
+
+    function renderGallery() {
+      galleryGrid.innerHTML = galleryImages.map((src, index) => `
+        <div class="gallery-item" data-index="${index}">
+          <img src="${src}" alt="RZK Atelier apparel — gallery image ${index + 1}" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-badge">RZK Atelier</span>
+            <i class="fas fa-search-plus" aria-hidden="true"></i>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openLightbox(index) {
+      currentIndex = index;
+      const lightbox = document.getElementById('lightbox');
+      const img = lightbox.querySelector('.lightbox-image');
+      img.src = galleryImages[currentIndex];
+      img.alt = `RZK Atelier apparel — gallery image ${currentIndex + 1}`;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % galleryImages.length;
+      openLightbox(currentIndex);
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+      openLightbox(currentIndex);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderGallery();
+      galleryGrid.addEventListener('click', (e) => {
+        const item = e.target.closest('.gallery-item');
+        if (!item) return;
+        const index = Number(item.getAttribute('data-index')) || 0;
+        openLightbox(index);
+      });
+
+      const lightbox = document.getElementById('lightbox');
+      lightbox.addEventListener('click', (e) => {
+        const action = e.target.getAttribute('data-action');
+        if (action === 'close') closeLightbox();
+        if (action === 'next') showNext();
+        if (action === 'prev') showPrev();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        const active = document.getElementById('lightbox').classList.contains('active');
+        if (!active) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') showNext();
+        if (e.key === 'ArrowLeft') showPrev();
+      });
+    });
+  </script>
+</body>
+</html>
+
+

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <title>About Us - OTHER</title>
+  <link rel="stylesheet" href="Resources/Styles/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script>
+    // Prevent Flash Of Incorrect Theme (FOIT)
+    (function() {
+      const theme = localStorage.getItem('theme') || 'system';
+      if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <style>
+    .page-hero {
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+      color: white;
+      padding: 80px 5% 60px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .page-hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .page-hero p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .about-content {
+      padding: 80px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-section {
+      margin-bottom: 80px;
+    }
+
+    .about-section h2 {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .about-section p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-color);
+      margin-bottom: 20px;
+      text-align: center;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin: 60px 0;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 30px;
+      background: var(--card-background);
+      border-radius: 15px;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .stat-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px var(--dropdown-shadow);
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: bold;
+      color: var(--accent-color);
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      font-size: 1.1rem;
+      color: var(--text-color);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      margin: 60px 0;
+    }
+
+    .team-member {
+      background: var(--card-background);
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .team-member:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px var(--dropdown-shadow);
+    }
+
+    .member-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: white;
+    }
+
+    .member-name {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--text-color);
+      margin-bottom: 10px;
+    }
+
+    .member-role {
+      font-size: 1rem;
+      color: var(--accent-color);
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .member-bio {
+      font-size: 0.95rem;
+      color: var(--nav-text);
+      line-height: 1.6;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      margin: 60px 0;
+    }
+
+    .value-item {
+      background: var(--card-background);
+      border-radius: 15px;
+      padding: 40px 30px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .value-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px var(--dropdown-shadow);
+    }
+
+    .value-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+      border-radius: 50%;
+      margin: 0 auto 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+    }
+
+    .value-title {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--text-color);
+      margin-bottom: 15px;
+    }
+
+    .value-description {
+      font-size: 1rem;
+      color: var(--nav-text);
+      line-height: 1.6;
+    }
+
+    .timeline {
+      max-width: 800px;
+      margin: 60px auto;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--accent-color);
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+      margin-right: 50%;
+      padding-right: 30px;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+      margin-left: 50%;
+      padding-left: 30px;
+    }
+
+    .timeline-content {
+      background: var(--card-background);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 25px;
+      position: relative;
+    }
+
+    .timeline-year {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--accent-color);
+      margin-bottom: 10px;
+    }
+
+    .timeline-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--text-color);
+      margin-bottom: 10px;
+    }
+
+    .timeline-description {
+      font-size: 1rem;
+      color: var(--nav-text);
+      line-height: 1.6;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      top: 30px;
+      width: 20px;
+      height: 20px;
+      background: var(--accent-color);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      border: 4px solid var(--background-color);
+      z-index: 2;
+    }
+
+    .cta-section {
+      background: var(--secondary-color);
+      padding: 80px 5%;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .cta-section h2 {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+    }
+
+    .cta-section p {
+      font-size: 1.2rem;
+      color: var(--text-color);
+      margin-bottom: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn {
+      padding: 15px 30px;
+      background: var(--accent-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .cta-btn:hover {
+      background: var(--button-hover);
+      transform: translateY(-2px);
+    }
+
+    .cta-btn.secondary {
+      background: transparent;
+      border: 2px solid var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .cta-btn.secondary:hover {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .page-hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .page-hero p {
+        font-size: 1.1rem;
+      }
+
+      .about-section h2 {
+        font-size: 2rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline::before {
+        left: 30px;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content,
+      .timeline-item:nth-child(even) .timeline-content {
+        margin: 0;
+        padding: 25px;
+        margin-left: 60px;
+        text-align: left;
+      }
+
+      .timeline-dot {
+        left: 30px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cta-btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="Index.html" class="logo-link">
+        <div class="logo-container">
+          <img src="Resources/Images/logo.png" alt="OTHER Logo" class="header-logo">
+        </div>
+      </a>
+      <nav>
+        <ul>
+          <li>
+            <a href="Orders.html" data-category="Orders">Orders</a>
+          </li>
+          <li>
+            <a href="About.html" data-category="About">About</a>
+          </li>
+          <li>
+            <a href="Gallery.html" data-category="Gallery">Gallery</a>
+          </li>
+          <li>
+            <a href="Contact.html" data-category="Contact">Contact</a>
+          </li>
+        <!--  <li>
+            <a href="#" data-category="discover">DISCOVER</a>
+            <div class="dropdown">
+              <a href="About.html">About Us</a>
+              <a href="Gallery.html">Gallery</a>
+              <a href="Contact.html">Contact</a>
+            </div>
+          </li>-->
+        </ul>
+      </nav>
+     <div class="header-icons">
+  <!--       <a href="#" class="wishlist-link"><i class="fas fa-heart"></i> Wishlist</a>
+        <a href="#" class="login-link"><i class="fas fa-user"></i> Login</a>
+        <a href="#" class="cart-link">
+          <i class="fas fa-shopping-cart"></i> Cart (<span class="cart-count">0</span>)
+        </a>-->
+      </div>
+    </div>
+  </header>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal">
+    <div class="cart-modal-content">
+      <div class="cart-modal-header">
+        <h3>Your Cart</h3>
+        <div class="cart-header-actions">
+          <button class="clear-cart-btn" type="button">Clear Cart</button>
+          <button class="close-cart" type="button">&times;</button>
+        </div>
+      </div>
+      <div id="cart-items">
+        <!-- Cart items will be dynamically added here -->
+      </div>
+      <div id="cart-totals">
+        <!-- Cart totals will be dynamically added here -->
+      </div>
+    </div>
+  </div>
+
+  <div class="page-hero">
+    <h1>About RZK ATELIER</h1>
+    <p>Your trusted local shirt supplier in Durban – delivering quality, variety, and customized apparel solutions for every occasion.</p>
+  </div>
+
+  <div class="about-content">
+    <div class="about-section">
+      <h2>Our Story</h2>
+    <p>RZK ATELIER was founded with one clear mission: to provide high-quality shirts and apparel that meet the needs of individuals, businesses, and organizations in Durban and beyond. What started as a passion for style and service has grown into a trusted local supplier for custom clothing.</p>
+    <p>From T-shirts and golfers to formal shirts and jackets, we offer a wide range of options suitable for corporate wear, team uniforms, events, and personal use. Every item we produce is carefully selected and finished to ensure comfort, durability, and a perfect fit.</p>
+    <p>To make every order unique, we specialize in in-house embroidery, DTF printing, and sublimation services. This means your logo, design, or message is not just added to a shirt – it becomes a lasting part of it.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">10K+</div>
+        <div class="stat-label">Garments Supplied</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Corporate Clients</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">5+</div>
+        <div class="stat-label">Years Serving Durban</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Customization In-House</div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <h2>Our Values</h2>
+      <div class="values-grid">
+        <div class="value-item">
+          <div class="value-icon">
+            <i class="fas fa-palette"></i>
+          </div>
+          <div class="value-title">Creativity</div>
+          <div class="value-description">We believe in pushing boundaries and encouraging creative expression through unique designs and customization options.</div>
+        </div>
+        <div class="value-item">
+          <div class="value-icon">
+            <i class="fas fa-award"></i>
+          </div>
+          <div class="value-title">Quality</div>
+          <div class="value-description">Every piece is crafted with premium materials and hand-finished to ensure the highest standards of quality and durability.</div>
+        </div>
+        <div class="value-item">
+          <div class="value-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="value-title">Community</div>
+          <div class="value-description">We're building a community of individuals who aren't afraid to be different and express their unique personalities.</div>
+        </div>
+        <div class="value-item">
+          <div class="value-icon">
+            <i class="fas fa-leaf"></i>
+          </div>
+          <div class="value-title">Sustainability</div>
+          <div class="value-description">We're committed to sustainable practices, from ethically sourced materials to eco-friendly packaging and production methods.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <h2>Meet Our Team</h2>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="member-photo">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="member-name">Muhammed</div>
+          <div class="member-role">Founder & Creative Director</div>
+          <div class="member-bio">With 10+ years in fashion design, Muhammed brings creativity and vision to every RZK ATELIER piece, ensuring each design tells a unique story.</div>
+        </div>
+        <div class="team-member">
+          <div class="member-photo">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="member-name">Mekalen Naidu</div>
+          <div class="member-role">Assistant & Head Developer</div>
+          <div class="member-bio">Mekalen is our assistant and head developer, ensuring every order is processed efficiently and every customer receives exceptional service.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <h2>Our Journey</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-year">2019</div>
+            <div class="timeline-title">The Idea</div>
+            <div class="timeline-description">RZK ATELIER was born out of the vision to provide Durban with a reliable supplier for custom shirts and apparel.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-year">2020</div>
+            <div class="timeline-title">First Orders</div>
+            <div class="timeline-description">We began supplying small batches of shirts and quickly gained a reputation for quality and service.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-year">2021</div>
+            <div class="timeline-title">In-House Customization</div>
+            <div class="timeline-description">We introduced embroidery, DTF printing, and sublimation to offer full-service customization for our clients.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-year">2023</div>
+            <div class="timeline-title">Corporate Growth</div>
+            <div class="timeline-description">Our client base expanded to include major businesses, schools, and organizations across Durban.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-year">2025</div>
+            <div class="timeline-title">The Future</div>
+            <div class="timeline-description">We continue to grow while staying true to our promise: Quality, Variety, and Service You Can Trust.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>Ready to Create with RZK ATELIER?</h2>
+    <p>Whether you’re ordering for your business, your team, or just for yourself – we’re here to bring your ideas to life with quality shirts and expert customization.</p>
+    <!--<div class="cta-buttons">
+      <a href="Shop.html" class="cta-btn">Shop Now</a>
+      <a href="BulkOrders.html" class="cta-btn secondary">Request Bulk Order</a>-->
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>DISCOVER</h4>
+        <ul>
+          <li><a href="About.html">ABOUT US</a></li>
+          <li><a href="Gallery.html">GALLERY</a></li>
+          <li><a href="Contact.html">CONTACT</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>CONNECT</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/rzk_atelier?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a></li>
+          <!--<li><a href="#"><i class="fab fa-facebook"></i> FACEBOOK</a></li>
+          <li><a href="#"><i class="fab fa-tiktok"></i> TIKTOK</a></li>-->
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>RZK ATELIER - Whatsapp Community</h4>
+        <p>JOIN THE RZK ATELIER COMMUNITY</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Phone Number" required>
+          <button type="submit">Join</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 RZK Atelier 
+        <br>Site by <a href="https://mekalen.github.io/MN/">Mekalen Naidu</a></p>
+    </div>
+  </footer>
+
+  <script src="Resources/Scripts/script.js"></script>
+  <script src="Resources/Scripts/cart.js"></script>
+  <script src="Resources/Scripts/theme.js"></script>
+</body>
+</html>

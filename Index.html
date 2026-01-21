@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <title>RZK Atelier - Inspired Website</title>
+  <link rel="stylesheet" href="Resources/Styles/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script>
+    // Prevent Flash Of Incorrect Theme (FOIT)
+    (function() {
+      const theme = localStorage.getItem('theme') || 'system';
+      if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="logo-link">
+        <div class="logo-container">
+          <img src="Resources/Images/logo.png" alt="RZK Atelier Logo" class="header-logo">
+        </div>
+      </a>
+      <nav>
+        <ul>
+          <li>
+           <!-- <a href="Shop.html" data-category="shop">SHOP</a> -->
+          </li>
+          <li>
+            <a href="Orders.html" data-category="Orders">Orders</a>
+          </li>
+          <li>
+            <a href="About.html" data-category="About">About</a>
+          </li>
+          <li>
+            <a href="Gallery.html" data-category="Gallery">Gallery</a>
+          </li>
+          <li>
+            <a href="Contact.html" data-category="Contact">Contact</a>
+          </li>
+        <!-- <li>
+            <a href="#" data-category="discover">DISCOVER</a>
+            <div class="dropdown">
+              <a href="About.html">About Us</a>
+              <a href="Gallery.html">Gallery</a>
+              <a href="Contact.html">Contact</a>
+            </div>
+          </li>--> 
+        </ul>
+      </nav>
+      
+      <div class="header-icons">
+       <!-- <a href="#" class="wishlist-link"><i class="fas fa-heart"></i> Wishlist</a>
+        <a href="#" class="login-link"><i class="fas fa-user"></i> Login</a>
+        <a href="#" class="cart-link">
+          <i class="fas fa-shopping-cart"></i> Cart (<span class="cart-count">0</span>)
+        </a>-->
+      </div>
+      
+    </div>
+  </header>
+
+  
+  <!-- Cart Modal -->
+  <div class="cart-modal">
+    <div class="cart-modal-content">
+      <div class="cart-modal-header">
+        <h3>Your Cart</h3>
+        <div class="cart-header-actions">
+          <button class="clear-cart-btn" type="button">Clear Cart</button>
+          <button class="close-cart" type="button">&times;</button>
+        </div>
+      </div>
+      <div id="cart-items">
+        <!-- Cart items will be dynamically added here -->
+      </div>
+      <div id="cart-totals">
+        <!-- Cart totals will be dynamically added here -->
+      </div>
+    </div>
+  </div>
+  
+
+  <section class="hero">
+    <video src="Resources/Videos/AZV.mp4" autoplay muted loop></video>
+    <div class="hero-text">
+      <!--<h2>NEW ARRIVALS</h2>
+      <p>Check out our soon to come collections.</p>
+      <a href="#" class="button">Coming Soon</a>-->
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-item">
+      <i class="fas fa-truck"></i>
+      <p>Free Shipping On all orders with more then 5 items</p>
+    </div>
+    <div class="info-item">
+      <i class="fas fa-undo"></i>
+      <p>Delivery within 7 business days in South Africa</p>
+    </div>
+    <div class="info-item">
+      <i class="fas fa-hand-holding-heart"></i>
+      <p>All of our pieces are hand-finished </p>
+    </div>
+  </section>
+
+  <!--
+  <section class="featured-products">
+    <h2>Featured Products</h2>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-image-container" data-images="Resources/Images/Designs/Brand/b12.png, Resources/Images/Designs/Brand/b13.png, Resources/Images/Designs/Brand/b12.png">
+          <img src="Resources/Images/Designs/Brand/b12.png" data-src="Resources/Images/Designs/Brand/b12.png" alt="Brand Jacket">
+        </div>
+        <h3>Atelier Jacket</h3>
+        <p class="price">R699.99</p>
+        <div class="product-options">
+          <div class="custom-select">
+            <select class="size-select">
+              <option value="">Select Size</option>
+              <option value="S">Small</option>
+              <option value="M">Medium</option>
+              <option value="L">Large</option>
+              <option value="XL">X-Large</option>
+            </select>
+          </div>
+          <button class="add-to-cart-btn" onclick="addToCart({
+            id: 'product1',
+            name: 'Classic Rock Band Tee',
+            price: 699.99,
+            image: 'Resources/Images/Designs/Brand/b12.png',
+            size: this.parentElement.querySelector('.size-select').value
+          })">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image-container" data-images="Resources/Images/Designs/Shirts/Gear5.2.png, Resources/Images/Designs/Shirts/Gear5.3.png, Resources/Images/Designs/Shirts/Gear5.1.png">
+          <img src="Resources/Images/Designs/Shirts/Gear5.1.png" data-src="Resources/Images/Designs/Shirts/Gear5.1.png" alt="Gear 5.1">
+        </div>
+        <h3>Onepiece Gear 5</h3>
+        <p class="price">R299.99</p>
+        <div class="product-options">
+          <div class="custom-select">
+            <select class="size-select">
+              <option value="">Select Size</option>
+              <option value="S">Small</option>
+              <option value="M">Medium</option>
+              <option value="L">Large</option>
+              <option value="XL">X-Large</option>
+            </select>
+          </div>
+          <button class="add-to-cart-btn" onclick="addToCart({
+            id: 'product1',
+            name: 'Gear 5.1',
+            price: 299.99,
+            image: 'Resources/Images/Designs/Shirts/Gear5.1.png',
+            size: this.parentElement.querySelector('.size-select').value
+          })">Add to Cart</button>
+        </div>
+      </div>      
+
+      <div class="product-card">
+        <div class="product-image-container" data-images="Resources/Images/Designs/Shirts/Supra.png, Resources/Images/Designs/Shirts/Supra1.png">
+          <img src="Resources/Images/Designs/Shirts/Supra.png" data-src="Resources/Images/Designs/Shirts/Supra.png" alt="Supra">
+        </div>
+        <h3>Supra mk4</h3>
+        <p class="price">R499.99</p>
+        <div class="product-options">
+          <select class="size-select">
+            <option value="">Select Size</option>
+            <option value="S">Small</option>
+            <option value="M">Medium</option>
+            <option value="L">Large</option>
+            <option value="XL">X-Large</option>
+          </select>
+          <button class="add-to-cart-btn" onclick="addToCart({
+            id: 'product2',
+            name: 'Supra mk4',
+            price: 499.99,
+            image: 'Resources/Images/Designs/Shirts/Supra.png',
+            size: this.parentElement.querySelector('.size-select').value
+          })">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+          <div class="product-image-container" data-images="Resources/Images/Designs/Hoodies/Vital.png, Resources/Images/Designs/Hoodies/Vital1.png">
+          <img src="Resources/Images/Designs/Hoodies/Vital.png" data-src="Resources/Images/Designs/Hoodies/Vital.png" alt="Vitaly">
+        </div>
+        <h3>Vitaly</h3>
+        <p class="price">R599.99</p>
+        <div class="product-options">
+          <select class="size-select">
+            <option value="">Select Size</option>
+            <option value="S">Small</option>
+            <option value="M">Medium</option>
+            <option value="L">Large</option>
+            <option value="XL">X-Large</option>
+          </select>
+          <button class="add-to-cart-btn" onclick="addToCart({
+            id: 'product3',
+            name: 'Vital',
+            price: 599.99,
+            image: 'Resources/Images/Designs/Hoodies/Vital.png',
+            size: this.parentElement.querySelector('.size-select').value
+          })">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </section>
+-->
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>DISCOVER</h4>
+        <ul>
+          <li><a href="About.html">ABOUT US</a></li>
+          <li><a href="Gallery.html">GALLERY</a></li>
+          <li><a href="Contact.html">CONTACT</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>CONNECT</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/rzk_atelier?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a></li>
+          <!--<li><a href="#"><i class="fab fa-facebook"></i> FACEBOOK</a></li>
+          <li><a href="#"><i class="fab fa-tiktok"></i> TIKTOK</a></li>-->
+        </ul>
+      </div>
+     <div class="footer-section">
+        <h4>RZK ATELIER - Whatsapp Community</h4>
+        <p>JOIN THE RZK ATELIER COMMUNITY</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Phone Number" required>
+          <button type="submit">Join</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 RZK Atelier 
+        <br>Site by <a href="https://mekalen.github.io/MN/">Mekalen Naidu</a></p>
+    </div>
+  </footer>
+
+  <script src="Resources/Scripts/script.js"></script>
+  <script src="Resources/Scripts/cart.js"></script>
+  <script src="Resources/Scripts/theme.js"></script>
+  <script src="Resources/Scripts/carousel.js"></script>
+</body>
+</html>
+ 
